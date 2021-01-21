@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamhanks.HappyBeautyManager.dao.SearchMapper">
+
+  <resultMap id="ReservationChargehistorySearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.ReservationChargehistory">
+    <id column="reservation_chargehistory_id" jdbcType="INTEGER" property="reservationChargehistoryId" />
+    <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    <result column="reservation_delete_flg" jdbcType="INTEGER" property="reservationDeleteFlg" />
+    <result column="judgment_flg" jdbcType="INTEGER" property="judgmentFlg" />
+    <result column="resarvation_create_date" jdbcType="TIMESTAMP" property="resarvationCreateDate" />
+    <result column="charge_id" jdbcType="INTEGER" property="chargeId" />
+    <result column="charge_money" jdbcType="INTEGER" property="chargeMoney" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="charge_date" jdbcType="TIMESTAMP" property="chargeDate" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+
+  <select id="reservationChargehistorySearchResultMap" resultMap="ReservationChargehistorySearchResultMap">
+    select * from reservation_chargehistory rch
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'managerId != null and !"".equals(managerId)'>
+          and rch.manager_id = #{managerId}
+        </if>
+        <if test= 'chargehistoryId != null and !"".equals(chargehistoryId)'>
+          and rch.reservation_chargehistory_id = #{chargehistoryId}
+        </if>
+        <if test= 'reservationDeleteFlg != null and !"".equals(reservationDeleteFlg)'>
+          and rch.reservation_delete_flg = #{reservationDeleteFlg}
+        </if>
+        <if test= 'judgmentFlg != null and !"".equals(judgmentFlg)'>
+          and rch.judgment_flg = #{judgmentFlg}
+        </if>
+        <if test= 'createDate != null and !"".equals(createDate)'>
+          and rch.resarvation_create_date = #{createDate}
+        </if>
+        <if test= 'chargeId != null and !"".equals(chargeId)'>
+          and rch.charge_id = #{chargeId}
+        </if>
+        <if test= 'chargeMoney != null and !"".equals(chargeMoney)'>
+          and rch.charge_money = #{chargeMoney}
+        </if>
+        <if test= 'customerId != null and !"".equals(customerId)'>
+          and rch.customer_id = #{customerId}
+        </if>
+        <if test= 'ownerId != null and !"".equals(ownerId)'>
+          and rch.owner_id = #{ownerId}
+        </if>
+        <if test= 'chargeDate != null and !"".equals(chargeDate)'>
+          and rch.charge_date = #{chargeDate}
+        </if>
+        <if test= 'deleteFlg != null and !"".equals(deleteFlg)'>
+          and rch.delete_flg = #{deleteFlg}
+        </if>
+      </trim>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+<classPathEntry location="C:\Program Files\Java\jdk1.8.0_202\jre\lib\ext\mysql-connector-java-8.0.11.jar"></classPathEntry>
+<context id="context1">
+<jdbcConnection connectionURL="jdbc:mysql://localhost:3306/work_db?characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false"
+driverClass="com.mysql.cj.jdbc.Driver"
+password="Daiki8863" userId="root" />
+<javaModelGenerator targetPackage="com.dreamhanks.dto" targetProject="WorkManager/src/main/java" />
+<sqlMapGenerator targetPackage="mappers" targetProject="WorkManager/src/main/resources" />
+<javaClientGenerator targetPackage="com.dreamhanks.dao" targetProject="WorkManager/src/main/java" type="XMLMAPPER" />
+<table schema="work_db" tableName="member"/>
+<table schema="work_db" tableName="worktime"/>
+</context>
+</generatorConfiguration>
