@@ -1,0 +1,64 @@
+package com.dreamhanks.HappyBeautyManager.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.dreamhanks.HappyBeautyManager.dao.ManagerMapper;
+import com.dreamhanks.HappyBeautyManager.dao.TableListDisplayMasterMapper;
+import com.dreamhanks.HappyBeautyManager.dto.Manager;
+import com.dreamhanks.HappyBeautyManager.dto.ManagerExample;
+import com.dreamhanks.HappyBeautyManager.dto.TableListDisplayMaster;
+import com.dreamhanks.HappyBeautyManager.dto.TableListDisplayMasterExample;
+import com.dreamhanks.HappyBeautyManager.form.LoginForm;
+
+@Service
+@Transactional
+public class LoginService {
+	
+	/**
+	  アイディーとパスワードをDBで照会し、それに該当するユーザー情報を返すメソッド
+	  @param form　画面から入力された値が入っているフォームクラス
+	  @author elmu
+	*/
+	
+	@Autowired
+	ManagerMapper managerMapper;
+	@Autowired
+	TableListDisplayMasterMapper displayMasterMapper;
+	
+	public Manager getManager(LoginForm form) {
+		//ユーザから入力されたIDとPasswordがDBのIDとPasswordが一致するかを確認するためのメッソド
+		ManagerExample example = new ManagerExample();
+		example.createCriteria().andIdEqualTo(form.getId()).andPasswordEqualTo(form.getPassword());
+		List<Manager> listManager = managerMapper.selectByExample(example);
+		if(listManager.isEmpty()) {
+			return null;
+		}
+		
+		return listManager.get(0);
+	}
+	
+	
+	
+	//Display_Masterの中で基本テーブル(group_idが１、available_flgが１)の情報を取得ためのメッソド
+	public List<TableListDisplayMaster> getDisplayMaster() {
+		TableListDisplayMasterExample example = new TableListDisplayMasterExample();
+		example.createCriteria().andAvailableFlgEqualTo(true).andGroupIdEqualTo(1);
+		List<TableListDisplayMaster> listDisplayMaster = displayMasterMapper.selectByExample(example);
+		return listDisplayMaster;
+	}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+

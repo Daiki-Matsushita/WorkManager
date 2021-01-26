@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamhanks.HappyBeautyManager.dao.SearchMapper">
+
+  <resultMap id="StampeventSearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.Stampevent">
+    <id column="stamp_event_id" jdbcType="INTEGER" property="stampEventId" />
+    <result column="stamp_id" jdbcType="INTEGER" property="stampId" />
+    <result column="event_space" jdbcType="INTEGER" property="eventSpace" />
+    <result column="event_contents" jdbcType="LONGVARCHAR" property="eventContents" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+
+
+  <select id="stampeventSearchResultMap" resultMap="StampeventSearchResultMap">
+    select rch.* from stampevent rch
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'stampEventId != null and !"".equals(stampEventId)'>
+          and rch.stamp_event_id = #{stampEventId}
+        </if>
+        <if test= 'stampId != null and !"".equals(stampId)'>
+          and rch.stamp_id = #{stampId}
+        </if>
+        <if test= 'eventSpace != null and !"".equals(eventSpace)'>
+          and rch.event_space = #{eventSpace}
+        </if>
+        <if test= 'eventContents != null and !"".equals(eventContents)'>
+          and rch.event_contents = #{eventContents}
+        </if>
+        <if test= 'deleteFlg != null and !"".equals(deleteFlg)'>
+          and rch.delete_flg = #{deleteFlg}
+        </if>
+      </trim>
+    </where>
+  </select>
+  
+  <resultMap id="ReservationhistorySearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.Reservationhistory">
+    <id column="reservation_id" jdbcType="INTEGER" property="reservationId" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="reservation_date" jdbcType="CHAR" property="reservationDate" />
+    <result column="reservation_time" jdbcType="CHAR" property="reservationTime" />
+    <result column="service_estimated_time" jdbcType="CHAR" property="serviceEstimatedTime" />
+    <result column="delete_flg" jdbcType="INTEGER" property="deleteFlg" />
+    <result column="customer_phone_number" jdbcType="CHAR" property="customerPhoneNumber" />
+    <result column="reservation_contents" jdbcType="LONGVARCHAR" property="reservationContents" />
+  </resultMap>
+
+  <select id="reservationhistorySearchResultMap" resultMap="ReservationhistorySearchResultMap">
+    select rch.* from reservationhistory rch
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'reservationId != null and !"".equals(reservationId)'>
+          and rch.reservation_id = #{reservationId}
+        </if>
+        <if test= 'customerId != null and !"".equals(customerId)'>
+          and rch.customer_id = #{customerId}
+        </if>
+        <if test= 'ownerId != null and !"".equals(ownerId)'>
+          and rch.owner_id = #{ownerId}
+        </if>
+        <if test= 'reservationDate != null and !"".equals(reservationDate)'>
+          and rch.reservation_date = #{reservationDate}
+        </if>
+        <if test= 'reservationTime != null and !"".equals(reservationTime)'>
+          and rch.reservation_time = #{reservationTime}
+        </if>
+        <if test= 'serviceEstimatedTime != null and !"".equals(serviceEstimatedTime)'>
+          and rch.service_estimated_time = #{serviceEstimatedTime}
+        </if>
+        <if test= 'deleteFlg != null and !"".equals(deleteFlg)'>
+          and rch.delete_flg = #{deleteFlg}
+        </if>
+        <if test= 'customerPhoneNumber != null and !"".equals(customerPhoneNumber)'>
+          and rch.customer_phone_number = #{customerPhoneNumber}
+        </if>
+        <if test= 'reservationContents != null and !"".equals(reservationContents)'>
+          and rch.reservation_contents = #{reservationContents}
+        </if>
+      </trim>
+    </where>
+  </select>
+  
+  <resultMap id="ServicehistorySearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.Servicehistory">
+    <id column="service_id" jdbcType="INTEGER" property="serviceId" />
+    <result column="service_money" jdbcType="INTEGER" property="serviceMoney" />
+    <result column="service_img" jdbcType="VARCHAR" property="serviceImg" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="service_date" jdbcType="TIMESTAMP" property="serviceDate" />
+    <result column="service_contents" jdbcType="LONGVARCHAR" property="serviceContents" />
+  </resultMap>
+
+  <select id="servicehistorySearchResultMap" resultMap="ServicehistorySearchResultMap">
+    select rch.* from servicehistory rch
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'serviceId != null and !"".equals(serviceId)'>
+          and rch.service_id = #{serviceId}
+        </if>
+        <if test= 'serviceMoney != null and !"".equals(serviceMoney)'>
+          and rch.service_money = #{serviceMoney}
+        </if>
+        <if test= 'serviceImg != null and !"".equals(serviceImg)'>
+          and rch.service_img = #{serviceImg}
+        </if>
+        <if test= 'customerId != null and !"".equals(customerId)'>
+          and rch.customer_id = #{customerId}
+        </if>
+        <if test= 'ownerId != null and !"".equals(ownerId)'>
+          and rch.owner_id = #{ownerId}
+        </if>
+        <if test= 'serviceDate != null and !"".equals(serviceDate)'>
+          and rch.service_date = #{serviceDate}
+        </if>
+        <if test= 'serviceContents != null and !"".equals(serviceContents)'>
+          and rch.service_contents = #{serviceContents}
+        </if>
+      </trim>
+    </where>
+  </select>
+  
+</mapper>

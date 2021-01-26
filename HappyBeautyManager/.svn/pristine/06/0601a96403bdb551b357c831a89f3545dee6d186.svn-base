@@ -1,0 +1,210 @@
+package com.dreamhanks.HappyBeautyManager.controller;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.dreamhanks.HappyBeautyManager.constants.Constants;
+import com.dreamhanks.HappyBeautyManager.dto.Manager;
+import com.dreamhanks.HappyBeautyManager.dto.SearchDisplayMaster;
+import com.dreamhanks.HappyBeautyManager.dto.Stampevent;
+import com.dreamhanks.HappyBeautyManager.dto.TableListDisplayMaster;
+import com.dreamhanks.HappyBeautyManager.form.DataManageProcessForm;
+import com.dreamhanks.HappyBeautyManager.form.StampEventSearchForm;
+import com.dreamhanks.HappyBeautyManager.form.TableForm;
+import com.dreamhanks.HappyBeautyManager.form.UpdateForm;
+import com.dreamhanks.HappyBeautyManager.service.LoginService;
+import com.dreamhanks.HappyBeautyManager.service.ManageService;
+
+/**
+ * データ管理(manage)のコントローラー
+ * 
+ * @author SungWook Lee and Elmurodjon
+ *
+ */
+@Controller
+@RequestMapping(value = "/manage")
+public class ManageController {
+	@Autowired
+	private ManageService manageService;
+
+	@Autowired
+	LoginService loginService;
+
+	/**
+	 * データ管理画面を開くためのメッソド
+	 * 
+	 * @param dataManageProcessForm
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/dataManageProcess")
+	public String dataManageProcess(
+			@ModelAttribute("DataManageProcessForm") DataManageProcessForm dataManageProcessForm, HttpSession session,
+			Model model) {
+		// ユーザがデータ管理を押下した場合
+		if (dataManageProcessForm.getManage().equals("manage")) {
+			List<TableListDisplayMaster> tablesList = manageService.getCurrentTables();
+			model.addAttribute("tablesList", tablesList);
+			String userifo = (String) session.getAttribute("userInfo");
+			return "manage";
+		}
+		// ユーザがデータ承認管理を押下した場合
+		else if (dataManageProcessForm.getAuth().equals("auth")) {
+			return "auth";
+		}
+		return "manage";
+	}
+
+	/**
+	 * テーブル一覧のテーブルを押下した時に、検索条件を表示するためのメッソド
+	 * 
+	 * @param model
+	 * @return manage
+	 */
+	@RequestMapping(value = "/selectTableProcess")
+	public String selectTableProcess(Model model) {
+
+		return "search";
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/search_result")
+	public Map<String, Object> selectTableProcess(@RequestBody Map<String, Object> map, Model model) {
+
+		TableForm tableForm = new TableForm();
+		tableForm.setSelectedTable((String) map.get("value"));
+		List<SearchDisplayMaster> tableColumList = manageService.selectedTableInfo(tableForm);
+
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("tableColumList", tableColumList);
+
+		return resultMap;
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/stamp_event_search")
+	public Map<String, Object> stampEventSearch(@RequestBody Map<String, Object> map, Model model) {
+
+		StampEventSearchForm stampEventSearchForm = new StampEventSearchForm();
+
+		stampEventSearchForm.setStampEventId((String) map.get("stampEventId"));
+		stampEventSearchForm.setStampId((String) map.get("stampId"));
+		stampEventSearchForm.setEventSpace((String) map.get("eventSpace"));
+		stampEventSearchForm.setEventContents((String) map.get("eventContents"));
+		stampEventSearchForm.setDeleteFlg((String) map.get("deleteFlg"));
+
+		List<Stampevent> dataList = manageService.getStampEventData(stampEventSearchForm);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("dataList", dataList);
+
+		return resultMap;
+
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/search_data")
+	public Map<String, Object> searchProcessing(@RequestBody Map<String, Object> map, Model model)
+			throws ParseException {
+
+		String tableName = (String) map.get("tableName");
+		List<String> searchList = (List<String>) map.get("searchResultList");
+		TableForm tableForm = new TableForm();
+		tableForm.setSelectedTable(tableName);
+		List<Object> resultList = manageService.searchProcessing(searchList, tableName);
+		List<SearchDisplayMaster> tableColumList = manageService.selectedTableInfo(tableForm);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("searchResultList", resultList);
+		resultMap.put("identificationNum", tableName);
+		resultMap.put("tableColumList", tableColumList);
+
+		return resultMap;
+
+	}
+
+
+
+	@RequestMapping(value = "/registrate")
+	public String registrate(Model model, HttpSession session) {
+
+		// jspファイルを画面に表示するために'登録メソッド'を作成する
+
+		// セッションからユーザー情報を取得する
+		Manager userResult = (Manager) session.getAttribute("userInfo");
+
+		// Display_Masterの中で基本テーブル(group_idが１、available_flgが１)の情報を取得
+		List<TableListDisplayMaster> listDisplayMaster =
+				loginService.getDisplayMaster(Constants.MANAGE_DISPLAY_TABLE_LIST);
+
+
+
+		// jspファイルで使用するために、属性に「ユーザー名、認証、テーブルリスト」を追加します
+		model.addAttribute("userName", userResult.getName());
+		model.addAttribute("auth", userResult.getAuth());
+		model.addAttribute("tablesList", listDisplayMaster);
+
+
+		return "registrate";
+
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/registrate_processing")
+	public Map<String, Object> registrateProcessing(@RequestBody Map<String, Object> map, Model model,
+			HttpSession session) throws ParseException {
+
+		// データベースにデータを挿入するために「registrateProcessingメソッド」を作成する
+
+		// セッションからユーザー情報を取得する
+		Manager userResult = (Manager) session.getAttribute("userInfo");
+		// ユーザーIDの取得
+		String managerId = userResult.getId();
+		// テーブル名の取得
+		String tableName = (String) map.get("tableName");
+		// Input valueの取得
+		List<String> searchList = (List<String>) map.get("searchResultList");
+		// データベースにデータを挿入するために、「manageServiceクラスregistrateProcessingメソッド」にデータを送信します
+		String result = manageService.registrateProcessing(searchList, managerId, tableName);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("searchResultList", result);
+
+
+		return resultMap;
+
+	}
+
+
+	@RequestMapping(value = "/updateProcess")
+	public String insertProcess(@ModelAttribute("UpdateForm") UpdateForm updateForm, Model model) {
+		// クリックされた時のレーコドのテーブル名を取得
+		String tableName = manageService.getSelectedTableName(updateForm);
+		// クリックされた時のレーコドを取得
+		Stampevent SelectedRow = manageService.getSelectedRow(updateForm);
+
+		// 取得されたレーコドのテーブル名とレーコドをモデルに詰める。
+		model.addAttribute("SelectedRow", SelectedRow);
+		model.addAttribute("tableName", tableName);
+		return "test";
+	}
+
+
+
+}
+
+

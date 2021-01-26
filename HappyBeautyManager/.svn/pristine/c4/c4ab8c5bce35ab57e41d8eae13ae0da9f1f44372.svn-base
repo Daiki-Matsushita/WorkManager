@@ -1,0 +1,332 @@
+package com.dreamhanks.HappyBeautyManager.service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.dreamhanks.HappyBeautyManager.dao.ReservationSearchMapper;
+import com.dreamhanks.HappyBeautyManager.dao.ReservationStampeventMapper;
+import com.dreamhanks.HappyBeautyManager.dao.SearchDisplayMasterMapper;
+import com.dreamhanks.HappyBeautyManager.dao.StampeventMapper;
+import com.dreamhanks.HappyBeautyManager.dao.TableListDisplayMasterMapper;
+import com.dreamhanks.HappyBeautyManager.dto.ReservationChargehistory;
+import com.dreamhanks.HappyBeautyManager.dto.ReservationOwner;
+import com.dreamhanks.HappyBeautyManager.dto.ReservationStampevent;
+import com.dreamhanks.HappyBeautyManager.dto.ReservationStampeventExample;
+import com.dreamhanks.HappyBeautyManager.dto.SearchDisplayMaster;
+import com.dreamhanks.HappyBeautyManager.dto.SearchDisplayMasterExample;
+import com.dreamhanks.HappyBeautyManager.dto.Stampevent;
+import com.dreamhanks.HappyBeautyManager.dto.StampeventExample;
+import com.dreamhanks.HappyBeautyManager.dto.TableListDisplayMaster;
+import com.dreamhanks.HappyBeautyManager.dto.TableListDisplayMasterExample;
+import com.dreamhanks.HappyBeautyManager.form.ReservationSearchForm;
+import com.dreamhanks.HappyBeautyManager.form.StampEventSearchForm;
+
+/**
+ * 承認却下確認画面で使うDBの処理を行うサービクラス
+ * 
+ * @author jini
+ *
+ */
+@Service
+@Transactional
+public class AuthService {
+	@Autowired
+	TableListDisplayMasterMapper tableListDisplayMasterMapper;
+	@Autowired
+	SearchDisplayMasterMapper searchDisplayMasterMapper;
+	@Autowired
+	ReservationSearchMapper reservationSearchMapper;
+	@Autowired
+	ReservationStampeventMapper reservationStampeventMapper;
+	@Autowired
+	StampeventMapper stampeventMapper;
+
+	/**
+	 * DBにある予約テーブルを読み込む処理をするためのメソッド
+	 * @return 予約テーブル名
+	 */
+	public List<TableListDisplayMaster> bringTableName() {
+		TableListDisplayMasterExample example = new TableListDisplayMasterExample();
+		example.createCriteria().andGroupIdEqualTo(2).andAvailableFlgEqualTo(true);
+		List<TableListDisplayMaster> tableName = tableListDisplayMasterMapper.selectByExample(example);
+		if (tableName.isEmpty()) {
+			return null;
+		}
+		return tableName;
+	}
+
+	/**
+	 * 選択されたテーブルのカラム名を持って来てカラム名を返すメソッド
+	 * @param tableValue テーブルの識別番号情報
+	 * @return　null値とカラム名リスト
+	 */
+	public List<SearchDisplayMaster> selectedTableInfo(String tableValue) {
+		SearchDisplayMasterExample example = new SearchDisplayMasterExample();
+		example.createCriteria().andIdentificationNumEqualTo(tableValue)
+				.andAvailableFlgEqualTo(true);
+		List<SearchDisplayMaster> selectedTableInfoList = searchDisplayMasterMapper.selectByExample(example);
+		if (selectedTableInfoList.isEmpty()) {
+			return null;
+		}
+
+		return selectedTableInfoList;
+
+	}
+	/**
+	 * テーブルによって検索結果リストを返すメソッド
+	 * @param searchList　検索条件の入力値
+	 * @param tableValue　テーブルの識別番号情報
+	 * @return　検索結果リスト
+	 * @throws ParseException
+	 */
+	public List<Object> searchResultList(List<String> searchList,String tableValue) throws ParseException {
+		
+		// 検索結果Listの初期化
+		List<Object> serchResultList = null;
+		
+		//StringをDateに変換
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		//boolean値の初期化
+		Boolean result = false;
+		
+		//Reservationchargehistoryの結果リスト取得
+		if (tableValue.equals("B5")) {
+			ReservationChargehistory reservationChargehistory = new ReservationChargehistory();
+			if(!searchList.get(0).isEmpty()) {
+				reservationChargehistory.setReservationChargehistoryId(Integer.parseInt(searchList.get(0)));
+			}
+			reservationChargehistory.setManagerId(searchList.get(1));
+			if(!searchList.get(2).isEmpty()) {
+				reservationChargehistory.setReservationDeleteFlg(Integer.parseInt(searchList.get(2)));
+			}
+			if(!searchList.get(3).isEmpty()) {
+				reservationChargehistory.setJudgmentFlg(Integer.parseInt(searchList.get(3)));
+			}
+			if(!searchList.get(4).isEmpty()) {
+				Date resarvationCreateDate = fm.parse(searchList.get(4));
+				reservationChargehistory.setResarvationCreateDate(resarvationCreateDate);
+			}
+			if(!searchList.get(5).isEmpty()) {
+				reservationChargehistory.setChargeId(Integer.parseInt(searchList.get(5)));
+			}
+			if(!searchList.get(6).isEmpty()) {
+				reservationChargehistory.setChargeMoney(Integer.parseInt(searchList.get(6)));
+			}
+			if(!searchList.get(7).isEmpty()) {
+				reservationChargehistory.setCustomerId(Integer.parseInt(searchList.get(7)));
+			}
+			if(!searchList.get(8).isEmpty()) {
+				reservationChargehistory.setOwnerId(Integer.parseInt(searchList.get(8)));
+			}
+			if(!searchList.get(9).isEmpty()) {
+				Date chargeDate = fm.parse(searchList.get(9));
+				reservationChargehistory.setChargeDate(chargeDate);
+			}
+			if(!searchList.get(10).isEmpty()) {
+				// Stringをbooleanに変換
+				result = Boolean.valueOf(searchList.get(10)).booleanValue();
+				reservationChargehistory.setDeleteFlg(result);
+			}
+			serchResultList = reservationSearchMapper.reservationChargehistorySearchResultMap(reservationChargehistory);
+		}
+
+		//ReservationOwnerテーブルの結果リスト取得
+		if (tableValue.equals("B1")) {
+			ReservationOwner reservationOwner =new ReservationOwner();
+			if(!searchList.get(0).isEmpty()) {
+				reservationOwner.setReservationOwnerId(Integer.parseInt(searchList.get(0)));
+			}
+			reservationOwner.setManagerId(searchList.get(1));
+			if(!searchList.get(2).isEmpty()) {
+				reservationOwner.setReservationDeleteFlg(Integer.parseInt(searchList.get(2)));
+			}
+			if(!searchList.get(3).isEmpty()) {
+				reservationOwner.setJudgmentFlg(Integer.parseInt(searchList.get(3)));
+			}
+			if(!searchList.get(4).isEmpty()) {
+				Date resarvationCreateDate = fm.parse(searchList.get(4));
+				reservationOwner.setResarvationCreateDate(resarvationCreateDate);
+			}
+			if(!searchList.get(5).isEmpty()) {
+				reservationOwner.setOwnerId(Integer.parseInt(searchList.get(5)));
+			}
+			reservationOwner.setSecurityId(searchList.get(6));
+			reservationOwner.setShopName(searchList.get(7));
+			if(!searchList.get(8).isEmpty()) {
+				reservationOwner.setShopCity(Integer.parseInt(searchList.get(8)));
+			}
+			if(!searchList.get(9).isEmpty()) {
+				reservationOwner.setShopTown(Integer.parseInt(searchList.get(9)));
+			}
+			reservationOwner.setShopPhoneNumber(searchList.get(10));
+			reservationOwner.setOwnerPhoneNumber(searchList.get(11));
+			reservationOwner.setOwnerPassword(searchList.get(12));
+			reservationOwner.setAuth(searchList.get(13));
+			if(!searchList.get(14).isEmpty()) {
+				result = Boolean.valueOf(searchList.get(14)).booleanValue();
+				reservationOwner.setDeleteFlg(result);
+			}
+			reservationOwner.setShopImg(searchList.get(15));
+			reservationOwner.setOwnerLoginId(searchList.get(16));
+			reservationOwner.setShopDetailAddress(searchList.get(17));
+			if(!searchList.get(14).isEmpty()) {
+				reservationOwner.setShopTypeId(Integer.parseInt(searchList.get(18)));
+			}
+			reservationOwner.setShopOpenTime(searchList.get(19));
+			reservationOwner.setShopCloseTime(searchList.get(20));
+			reservationOwner.setReservationIntervalTime(searchList.get(21));
+			if(!searchList.get(22).isEmpty()) {
+				Date createDate = fm.parse(searchList.get(22));
+				reservationOwner.setCreateDate(createDate);
+			}
+			//serchResultList = reservationSearchMapper.reservationOwnerSearchResultMap(reservationOwner);
+
+		}
+		//ReservationStampeventテーブルの検索結果リスト取得
+		if (tableValue.equals("B7")) {
+			ReservationStampevent reservationStampevent = new ReservationStampevent();
+			if(!searchList.get(0).isEmpty()) {
+				reservationStampevent.setReservationStampeventId(Integer.parseInt(searchList.get(0)));
+			}
+			reservationStampevent.setManagerId(searchList.get(1));
+			if(!searchList.get(2).isEmpty()) {
+				reservationStampevent.setReservationDeleteFlg(Integer.parseInt(searchList.get(2)));
+			}
+			if(!searchList.get(3).isEmpty()) {
+				reservationStampevent.setJudgmentFlg(Integer.parseInt(searchList.get(3)));
+			}
+			if(!searchList.get(4).isEmpty()) {
+				Date resarvationCreateDate = fm.parse(searchList.get(4));
+				reservationStampevent.setResarvationCreateDate(resarvationCreateDate);
+			}
+			if(!searchList.get(5).isEmpty()) {
+				reservationStampevent.setStampEventId(Integer.parseInt(searchList.get(5)));
+			}
+			if(!searchList.get(6).isEmpty()) {
+				reservationStampevent.setStampId(Integer.parseInt(searchList.get(6)));
+			}
+			if(!searchList.get(7).isEmpty()) {
+				reservationStampevent.setEventSpace(Integer.parseInt(searchList.get(7)));
+			}
+			if(!searchList.get(8).isEmpty()) {
+				reservationStampevent.setEventContents(searchList.get(8));
+			}
+			if(!searchList.get(9).isEmpty()) {
+				result = Boolean.valueOf(searchList.get(9)).booleanValue();
+				reservationStampevent.setDeleteFlg(result);
+			}
+			//serchResultList = reservationSearchMapper.reservationStampeventSearchResultMap(reservationStampevent);
+		}
+
+		return serchResultList;
+	}
+	/**
+	 * 検索結果リストの中で選択されたレコーダー情報を返すメソッド
+	 * @param reservationSearchForm　画面から入力された値が入っているフォームクラス
+	 * @return　選択されたレコーダーの情報
+	 */
+	public List<Object> authConfirmList(ReservationSearchForm reservationSearchForm){
+		// 結果Listの初期化
+		 List<Object> authConfirmList = null;
+		
+		String[] checkValue = reservationSearchForm.getCheckedList();
+		String identificationNumber = reservationSearchForm.getIdentificationNumber();
+		if("B7".equals(identificationNumber)) {
+			for(int i=0; i<checkValue.length; i++) {
+				ReservationStampeventExample example = new ReservationStampeventExample();
+				example.createCriteria().andReservationStampeventIdEqualTo(Integer.parseInt(checkValue[i]));
+				authConfirmList = reservationStampeventMapper.selectByExampleWithBLOBs(example);
+			}
+		}
+		
+		return authConfirmList;
+	}
+	/**
+	 * 承認却下確認画面でデータをインサートするメソッド
+	 * @param reservationSearchForm 識別番号情報とチェックされた値
+	 */
+	public void insertTableInfo(ReservationSearchForm reservationSearchForm) {
+		String[] checkValue = reservationSearchForm.getCheckedList();
+		String identificationNumber = reservationSearchForm.getIdentificationNumber();
+		if("B7".equals(identificationNumber)) {
+			ReservationStampeventExample example = new ReservationStampeventExample();
+			example.createCriteria().andReservationStampeventIdEqualTo(Integer.parseInt(checkValue[0]));
+			List<Object> authConfirmList = reservationStampeventMapper.selectByExampleWithBLOBs(example);
+			for(int i=0; i<authConfirmList.size(); i++) {
+				//登録更新判定フラグが１(登録)場合
+				if(((ReservationStampevent) authConfirmList.get(i)).getJudgmentFlg()==1) {
+					Stampevent stampevent = new Stampevent();
+					ReservationStampevent reservationStampevent = new ReservationStampevent(); 
+					stampevent.setStampId(((ReservationStampevent) authConfirmList.get(i)).getStampId());
+					stampevent.setEventSpace(((ReservationStampevent) authConfirmList.get(i)).getEventSpace());
+					stampevent.setEventContents(((ReservationStampevent) authConfirmList.get(i)).getEventContents());
+					stampeventMapper.insertSelective(stampevent);
+					reservationStampevent.setReservationDeleteFlg(1);
+					reservationStampeventMapper.updateByExampleSelective(reservationStampevent, example);
+				}
+			}
+		}
+	}
+	/**
+	 * 承認却下確認画面でデータを更新するメソッド
+	 * @param reservationSearchForm　識別番号情報とチェックされた値
+	 */
+	public void updateTableInfo(ReservationSearchForm reservationSearchForm) {
+		String[] checkValue = reservationSearchForm.getCheckedList();
+		String identificationNumber = reservationSearchForm.getIdentificationNumber();
+		if("B7".equals(identificationNumber)) {
+			ReservationStampeventExample example = new ReservationStampeventExample();
+			example.createCriteria().andReservationStampeventIdEqualTo(Integer.parseInt(checkValue[0]));
+			List<Object> authConfirmList = reservationStampeventMapper.selectByExampleWithBLOBs(example);
+			for(int i=0; i<authConfirmList.size(); i++) {
+				//登録更新判定フラグが0(更新)場合
+				if(((ReservationStampevent) authConfirmList.get(i)).getJudgmentFlg()==0) {
+					Stampevent stampevent = new Stampevent();
+					ReservationStampevent reservationStampevent = new ReservationStampevent(); 
+					stampevent.setStampId(((ReservationStampevent) authConfirmList.get(i)).getStampId());
+					stampevent.setStampEventId(((ReservationStampevent) authConfirmList.get(i)).getStampEventId());
+					stampevent.setDeleteFlg(false);
+					stampevent.setEventSpace(((ReservationStampevent) authConfirmList.get(i)).getEventSpace());
+					stampevent.setEventContents(((ReservationStampevent) authConfirmList.get(i)).getEventContents());
+					stampeventMapper.updateByPrimaryKeyWithBLOBs(stampevent);
+					reservationStampevent.setReservationDeleteFlg(1);
+					reservationStampeventMapper.updateByExampleSelective(reservationStampevent, example);
+				}
+			}
+		}
+	}
+	/**
+	 * 承認却下確認画面でデータを削除するメソッド
+	 * @param reservationSearchForm 識別番号情報とチェックされた値
+	 */
+	public void deleteTableInfo(ReservationSearchForm reservationSearchForm) {
+		String[] checkValue = reservationSearchForm.getCheckedList();
+		String identificationNumber = reservationSearchForm.getIdentificationNumber();
+		if("B7".equals(identificationNumber)) {
+			ReservationStampeventExample example = new ReservationStampeventExample();
+			example.createCriteria().andReservationStampeventIdEqualTo(Integer.parseInt(checkValue[0]));
+			List<Object> authConfirmList = reservationStampeventMapper.selectByExampleWithBLOBs(example);
+			for(int i=0; i<authConfirmList.size(); i++) {
+				//登録更新判定フラグが2(削除)場合
+				if(((ReservationStampevent) authConfirmList.get(i)).getJudgmentFlg()==2) {
+					Stampevent stampevent = new Stampevent();
+					ReservationStampevent reservationStampevent = new ReservationStampevent(); 
+					stampevent.setStampId(((ReservationStampevent) authConfirmList.get(i)).getStampId());
+					stampevent.setStampEventId(((ReservationStampevent) authConfirmList.get(i)).getStampEventId());
+					stampevent.setDeleteFlg(true);
+					stampevent.setEventSpace(((ReservationStampevent) authConfirmList.get(i)).getEventSpace());
+					stampevent.setEventContents(((ReservationStampevent) authConfirmList.get(i)).getEventContents());
+					stampeventMapper.updateByPrimaryKeyWithBLOBs(stampevent);
+					reservationStampevent.setReservationDeleteFlg(1);
+					reservationStampeventMapper.updateByExampleSelective(reservationStampevent, example);
+				}
+			}
+		}
+	}
+
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+<classPathEntry location="C:\Program Files\Java\jdk1.8.0_202\jre\lib\ext\mysql-connector-java-8.0.11.jar"></classPathEntry>
+<context id="context1">
+<jdbcConnection connectionURL="jdbc:mysql://118.38.178.203:3306/happy_beauty?characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false"
+driverClass="com.mysql.cj.jdbc.Driver"
+password="5446" userId="root" />
+<javaModelGenerator targetPackage="com.dreamhanks.HappyBeautyManager.dto" targetProject="HappyBeautyManager/src/main/java" />
+<sqlMapGenerator targetPackage="mappers" targetProject="HappyBeautyManager/src/main/resources" />
+<javaClientGenerator targetPackage="com.dreamhanks.HappyBeautyManager.dao" targetProject="HappyBeautyManager/src/main/java" type="XMLMAPPER" />
+<table schema="happy_beauty" tableName="chargehistory"/>
+<table schema="happy_beauty" tableName="customer"/>
+<table schema="happy_beauty" tableName="customerstamp"/>
+<table schema="happy_beauty" tableName="owner"/>
+<table schema="happy_beauty" tableName="reservationhistory"/>
+<table schema="happy_beauty" tableName="servicehistory"/>
+<table schema="happy_beauty" tableName="stamp"/>
+<table schema="happy_beauty" tableName="stampevent"/>
+<table schema="happy_beauty" tableName="reservation_chargehistory"/>
+<table schema="happy_beauty" tableName="reservation_customer"/>
+<table schema="happy_beauty" tableName="reservation_customerstamp"/>
+<table schema="happy_beauty" tableName="reservation_owner"/>
+<table schema="happy_beauty" tableName="reservation_reservationhistory"/>
+<table schema="happy_beauty" tableName="reservation_servicehistory"/>
+<table schema="happy_beauty" tableName="reservation_stamp"/>
+<table schema="happy_beauty" tableName="reservation_stampevent"/>
+<table schema="happy_beauty" tableName="manager"/>
+<table schema="happy_beauty" tableName="search_display_master"/>
+<table schema="happy_beauty" tableName="search_result_display_master"/>
+<table schema="happy_beauty" tableName="table_list_display_master"/>
+
+
+</context>
+</generatorConfiguration>

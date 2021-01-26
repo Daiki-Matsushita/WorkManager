@@ -1,0 +1,176 @@
+package com.dreamhanks.HappyBeautyManager.form;
+/**
+ * データー管理画面の検索条件の入力を格納するためのフォームクラス
+ * @author jini
+ *
+ */
+public class SearchForm {
+	private String[] searchWord;
+	private String identificationNumber;
+	private String managerId;
+	private String chargehistoryId;
+	private String reservationDeleteFlg;
+	private String judgmentFlg;
+	private String createDate;
+	private String chargeId;
+	private String chargeMoney;
+	private String customerId;
+	private String ownerId;
+	private String chargeDate;
+	private String deleteFlg;
+	
+	private String stampEventId;
+	private String stampId;
+	private String eventSpace;
+	private String eventContents; 
+	
+	private String reservationStampeventId;
+	
+	public String getReservationStampeventId() {
+		return reservationStampeventId;
+	}
+
+	public void setReservationStampeventId(String reservationStampeventId) {
+		this.reservationStampeventId = reservationStampeventId;
+	}
+
+	public String getStampEventId() {
+		return stampEventId;
+	}
+
+	public void setStampEventId(String stampEventId) {
+		this.stampEventId = stampEventId;
+	}
+
+	public String getStampId() {
+		return stampId;
+	}
+
+	public void setStampId(String stampId) {
+		this.stampId = stampId;
+	}
+
+	public String getEventSpace() {
+		return eventSpace;
+	}
+
+	public void setEventSpace(String eventSpace) {
+		this.eventSpace = eventSpace;
+	}
+
+	public String getEventContents() {
+		return eventContents;
+	}
+
+	public void setEventContents(String eventContents) {
+		this.eventContents = eventContents;
+	}
+
+	
+
+	public String getChargehistoryId() {
+		return chargehistoryId;
+	}
+
+	public void setChargehistoryId(String chargehistoryId) {
+		this.chargehistoryId = chargehistoryId;
+	}
+
+	public String getReservationDeleteFlg() {
+		return reservationDeleteFlg;
+	}
+
+	public void setReservationDeleteFlg(String reservationDeleteFlg) {
+		this.reservationDeleteFlg = reservationDeleteFlg;
+	}
+
+	public String getJudgmentFlg() {
+		return judgmentFlg;
+	}
+
+	public void setJudgmentFlg(String judgmentFlg) {
+		this.judgmentFlg = judgmentFlg;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getChargeId() {
+		return chargeId;
+	}
+
+	public void setChargeId(String chargeId) {
+		this.chargeId = chargeId;
+	}
+
+	public String getChargeMoney() {
+		return chargeMoney;
+	}
+
+	public void setChargeMoney(String chargeMoney) {
+		this.chargeMoney = chargeMoney;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public String getChargeDate() {
+		return chargeDate;
+	}
+
+	public void setChargeDate(String chargeDate) {
+		this.chargeDate = chargeDate;
+	}
+
+	public String getDeleteFlg() {
+		return deleteFlg;
+	}
+
+	public void setDeleteFlg(String deleteFlg) {
+		this.deleteFlg = deleteFlg;
+	}
+
+	
+	public String[] getSearchWord() {
+		return searchWord;
+	}
+
+	public void setSearchWord(String[] searchWord) {
+		this.searchWord = searchWord;
+	}
+
+	public String getIdentificationNumber() {
+		return identificationNumber;
+	}
+
+	public void setIdentificationNumber(String identificationNumber) {
+		this.identificationNumber = identificationNumber;
+	}
+
+	public String getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(String managerId) {
+		this.managerId = managerId;
+	}
+
+}

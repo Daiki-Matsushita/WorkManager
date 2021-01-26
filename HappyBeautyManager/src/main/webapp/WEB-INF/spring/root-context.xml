@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan
+		base-package="com.dreamhanks.HappyBeautyManager" />
+	
+	<!-- MySQL dataSource -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="url"
+			value="jdbc:log4jdbc:mysql://118.38.178.203:3306/happy_beauty?useSSL=false&amp;serverTimezone=UTC"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="5446"></property>
+	</bean>
+
+	<!-- mybatis SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml"></property>
+		<property name="mapperLocations"
+			value="classpath:mappers/**/*Mapper.xml"></property>
+	</bean>
+
+	<!-- mybatis -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<!-- ChargehistoryMapper -->
+	<bean id="ChargehistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ChargehistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- CustomerMapper -->
+	<bean id="CustomerMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.CustomerMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- CustomerstampMapper -->
+	<bean id="CustomerstampMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.CustomerstampMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- OwnerMapper -->
+	<bean id="OwnerMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.OwnerMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ReservationhistoryMapper -->
+	<bean id="ReservationhistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationhistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ServicehistoryMapper -->
+	<bean id="ServicehistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ServicehistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- StampMapper -->
+	<bean id="StampMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.StampMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- StampeventMapper -->
+	<bean id="StampeventMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.StampeventMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- ReservationChargehistoryMapper -->
+	<bean id="ReservationChargehistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationChargehistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- ReservationCustomerMapper -->
+	<bean id="ReservationCustomerMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationCustomerMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- ReservationCustomerstampMapper -->
+	<bean id="ReservationCustomerstampMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationCustomerstampMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- ReservationOwnerMapper -->
+	<bean id="ReservationOwnerMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationOwnerMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- ReservationReservationhistoryMapper -->
+	<bean id="ReservationReservationhistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationReservationhistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ReservationServicehistoryMapper -->
+	<bean id="ReservationServicehistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationServicehistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ReservationStampMapper -->
+	<bean id="ReservationStampMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationStampMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ReservationStampeventMapper -->
+	<bean id="ReservationStampeventMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationStampeventMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ManagerMapper -->
+	<bean id="ManagerMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ManagerMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- SearchDisplayMasterMapper -->
+	<bean id="SearchDisplayMasterMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.SearchDisplayMasterMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- SearchResultDisplayMasterMapper -->
+	<bean id="SearchResultDisplayMasterMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.SearchResultDisplayMasterMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- TableListDisplayMasterMapper -->
+	<bean id="TableListDisplayMasterMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.TableListDisplayMasterMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- JoinReservationChargehistoryMapper -->
+	<bean id="JoinReservationChargehistoryMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.JoinReservationChargehistoryMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- SearchMapper -->
+	<bean id="SearchMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.SearchMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ReservationSearchMapper -->
+	<bean id="ReservationSearchMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="com.dreamhanks.HappyBeautyManager.dao.ReservationSearchMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	
+		
+</beans>

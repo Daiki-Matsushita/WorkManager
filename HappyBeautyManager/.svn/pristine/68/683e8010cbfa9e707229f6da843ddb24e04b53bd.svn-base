@@ -1,0 +1,56 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#sidebar {
+	width: 300px;
+	height: 100%;
+	top: 0;
+	left: 0px;
+	bottom: position: fixed;
+}
+
+#sidebar>ul {
+	margin: 0;
+	padding: 0;
+	top: 50px;
+	left: 70px;
+	position: absolute;
+}
+
+#sidebar li {
+	margin: 0 0 20px;
+	list-style: none;
+}
+
+table, td {
+	border: 1px solid red
+}
+
+table {
+	height: 100px;
+	margin: auto;
+	text-align: center;
+}
+
+.buttonLocation {
+	position: absolute;
+	left: 821px;
+}
+
+.buttonLocation2 {
+	position: absolute;
+	left: 1173px;
+	margin-top: 446px;
+}
+
+.buttonLocation3 {
+	position: absolute;
+	left: 1173px;
+	margin-top: 500px;
+}

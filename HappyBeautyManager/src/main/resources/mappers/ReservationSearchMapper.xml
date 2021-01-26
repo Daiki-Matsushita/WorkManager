@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamhanks.HappyBeautyManager.dao.ReservationSearchMapper">
+  <!--ReservationOwner-->
+  <resultMap id="ReservationOwnerSearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.ReservationOwner">
+    <id column="reservation_owner_id" jdbcType="INTEGER" property="reservationOwnerId" />
+    <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    <result column="reservation_delete_flg" jdbcType="INTEGER" property="reservationDeleteFlg" />
+    <result column="judgment_flg" jdbcType="INTEGER" property="judgmentFlg" />
+    <result column="resarvation_create_date" jdbcType="TIMESTAMP" property="resarvationCreateDate" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="security_id" jdbcType="VARCHAR" property="securityId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="shop_city" jdbcType="INTEGER" property="shopCity" />
+    <result column="shop_town" jdbcType="INTEGER" property="shopTown" />
+    <result column="shop_phone_number" jdbcType="CHAR" property="shopPhoneNumber" />
+    <result column="owner_phone_number" jdbcType="CHAR" property="ownerPhoneNumber" />
+    <result column="owner_password" jdbcType="VARCHAR" property="ownerPassword" />
+    <result column="auth" jdbcType="VARCHAR" property="auth" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+    <result column="shop_img" jdbcType="VARCHAR" property="shopImg" />
+    <result column="owner_login_id" jdbcType="VARCHAR" property="ownerLoginId" />
+    <result column="shop_detail_address" jdbcType="VARCHAR" property="shopDetailAddress" />
+    <result column="shop_type_id" jdbcType="INTEGER" property="shopTypeId" />
+    <result column="shop_open_time" jdbcType="CHAR" property="shopOpenTime" />
+    <result column="shop_close_time" jdbcType="CHAR" property="shopCloseTime" />
+    <result column="reservation_interval_time" jdbcType="CHAR" property="reservationIntervalTime" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  
+   <!--ReservationOwnerセレクト文-->
+  <select id="reservationOwnerSearchResultMap" resultMap="ReservationOwnerSearchResultMap">
+    select ro.* from reservation_owner ro
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'reservationOwnerId != null and !"".equals(reservationOwnerId)'>
+          and ro.reservation_owner_id = #{reservationOwnerId}
+        </if>
+        <if test= 'managerId != null and !"".equals(managerId)'>
+          and ro.manager_id = #{managerId}
+        </if>
+        <if test= 'reservationDeleteFlg != null and !"".equals(reservationDeleteFlg)'>
+          and ro.reservation_delete_flg = #{reservationDeleteFlg}
+        </if>
+        <if test= 'judgmentFlg != null and !"".equals(judgmentFlg)'>
+          and ro.judgment_flg = #{judgmentFlg}
+        </if>
+        <if test= 'reservationCreateDate != null and !"".equals(reservationCreateDate)'>
+          and ro.resarvation_create_date = #{reservationCreateDate}
+        </if>
+        <if test= 'ownerId != null and !"".equals(ownerId)'>
+          and ro.owner_id = #{ownerId}
+        </if>
+        <if test= 'securityId != null and !"".equals(securityId)'>
+          and ro.security_id = #{securityId}
+        </if>
+        <if test= 'shopName != null and !"".equals(shopName)'>
+          and ro.shop_name = #{shopName}
+        </if>
+        <if test= 'shopCity != null and !"".equals(shopCity)'>
+          and ro.shop_city = #{shopCity}
+        </if>
+        <if test= 'shopTown != null and !"".equals(shopTown)'>
+          and ro.shop_town = #{shopTown}
+        </if>
+        <if test= 'shopPhoneNumber != null and !"".equals(shopPhoneNumber)'>
+          and ro.shop_phone_number = #{shopPhoneNumber}
+        </if>
+         <if test= 'ownerPhoneNumber != null and !"".equals(ownerPhoneNumber)'>
+          and ro.owner_phone_number = #{ownerPhoneNumber}
+        </if>
+         <if test= 'ownerPassword != null and !"".equals(ownerPassword)'>
+          and ro.owner_password = #{ownerPassword}
+        </if>
+         <if test= 'auth != null and !"".equals(auth)'>
+          and ro.auth = #{auth}
+        </if>
+         
+         <if test= 'deleteFlg != null and !"".equals(deleteFlg)'>
+          and ro.delete_flg = #{deleteFlg}
+        </if>
+         <if test= 'shopImg != null and !"".equals(shopImg)'>
+          and ro.shop_img = #{shopImg}
+          </if>
+       
+         <if test= 'ownerLoginId != null and !"".equals(ownerLoginId)'>
+          and ro.owner_login_id = #{ownerLoginId}
+        </if>
+         <if test= 'shopDetailAddress != null and !"".equals(shopDetailAddress)'>
+          and ro.shop_detail_address = #{shopDetailAddress}
+        </if>
+         <if test= 'shopTypeId != null and !"".equals(shopTypeId)'>
+          and ro.shop_type_id = #{shopTypeId}
+        </if>
+         <if test= 'shopOpenTime != null and !"".equals(shopOpenTime)'>
+          and ro.shop_open_time = #{shopOpenTime}
+        </if>
+         <if test= 'shopCloseTime != null and !"".equals(shopCloseTime)'>
+          and ro.shop_close_time = #{shopCloseTime}
+        </if>
+         <if test= 'reservationIntervalTime != null and !"".equals(reservationIntervalTime)'>
+          and ro.reservation_interval_time = #{reservationIntervalTime}
+        </if>
+         <if test= 'createDate != null and !"".equals(createDate)'>
+          and ro.create_date = #{createDate}
+        </if>
+      </trim>
+    </where>
+  </select>
+
+ <!--ReservationStampevent-->
+<resultMap id="ReservationStampeventSearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.ReservationStampevent">
+    <result column="reservation_stampevent_id" jdbcType="INTEGER" property="reservationStampeventId" />
+    <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    <result column="reservation_delete_flg" jdbcType="INTEGER" property="reservationDeleteFlg" />
+    <result column="judgment_flg" jdbcType="INTEGER" property="judgmentFlg" />
+    <result column="resarvation_create_date" jdbcType="TIMESTAMP" property="resarvationCreateDate" />
+    <result column="stamp_event_id" jdbcType="INTEGER" property="stampEventId" />
+    <result column="stamp_id" jdbcType="INTEGER" property="stampId" />
+    <result column="event_space" jdbcType="INTEGER" property="eventSpace" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+   <!--ReservationStampeventセレクト文-->
+   <select id="reservationStampeventSearchResultMap" resultMap="ReservationStampeventSearchResultMap">
+    select rse.* from reservation_stampevent rse
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'reservationStampeventId != null and !"".equals(reservationStampeventId)'>
+          and rse.reservation_stampevent_id = #{reservationStampeventId}
+        </if>
+        <if test= 'managerId != null and !"".equals(managerId)'>
+          and rse.manager_id = #{managerId}
+        </if>
+        <if test= 'reservationDeleteFlg != null and !"".equals(reservationDeleteFlg)'>
+          and rse.reservation_delete_flg = #{reservationDeleteFlg}
+        </if>
+        <if test= 'judgmentFlg != null and !"".equals(judgmentFlg)'>
+          and rse.judgment_flg = #{judgmentFlg}
+        </if>
+        <if test= 'createDate != null and !"".equals(createDate)'>
+          and rse.resarvation_create_date = #{createDate}
+        </if>
+        <if test= 'stampEventId != null and !"".equals(stampEventId)'>
+          and rse.stamp_event_id = #{stampEventId}
+        </if>
+        <if test= 'stampId != null and !"".equals(stampId)'>
+          and rse.stamp_id = #{stampId}
+        </if>
+        <if test= 'eventSpace != null and !"".equals(eventSpace)'>
+          and rse.event_space = #{eventSpace}
+        </if>
+        <if test= 'eventContents != null and !"".equals(eventContents)'>
+          and rse.event_contents = #{eventContents}
+        </if>
+        <if test= 'deleteFlg != null and !"".equals(deleteFlg)'>
+          and rse.delete_flg = #{deleteFlg}
+        </if>
+      </trim>
+    </where>
+  </select>
+  <!--ReservationChargehistory-->
+  <resultMap id="ReservationChargehistorySearchResultMap" type="com.dreamhanks.HappyBeautyManager.dto.ReservationChargehistory">
+    <result column="reservation_chargehistory_id" jdbcType="INTEGER" property="reservationChargehistoryId" />
+    <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    <result column="reservation_delete_flg" jdbcType="INTEGER" property="reservationDeleteFlg" />
+    <result column="judgment_flg" jdbcType="INTEGER" property="judgmentFlg" />
+    <result column="resarvation_create_date" jdbcType="TIMESTAMP" property="resarvationCreateDate" />
+    <result column="charge_id" jdbcType="INTEGER" property="chargeId" />
+    <result column="charge_money" jdbcType="INTEGER" property="chargeMoney" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="charge_date" jdbcType="TIMESTAMP" property="chargeDate" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+  
+  
+  <!--ReservationChargehistoryセレクト文-->
+  <select id="reservationChargehistorySearchResultMap" resultMap="ReservationChargehistorySearchResultMap">
+    select rch.* from reservation_chargehistory rch
+    <where>
+      <trim prefix="(" prefixOverrides="and" suffix=")">
+        <if test= 'managerId != null and !"".equals(managerId)'>
+          and rch.manager_id = #{managerId}
+        </if>
+        <if test= 'reservationChargehistoryId != null and !"".equals(reservationChargehistoryId)'>
+          and rch.reservation_chargehistory_id = #{reservationChargehistoryId}
+        </if>
+        <if test= 'reservationDeleteFlg != null and !"".equals(reservationDeleteFlg)'>
+          and rch.reservation_delete_flg = #{reservationDeleteFlg}
+        </if>
+        <if test= 'judgmentFlg != null and !"".equals(judgmentFlg)'>
+          and rch.judgment_flg = #{judgmentFlg}
+        </if>
+        <if test= 'resarvationCreateDate != null and !"".equals(resarvationCreateDate)'>
+          and rch.resarvation_create_date = #{resarvationCreateDate}
+        </if>
+        <if test= 'chargeId != null and !"".equals(chargeId)'>
+          and rch.charge_id = #{chargeId}
+        </if>
+        <if test= 'chargeMoney != null and !"".equals(chargeMoney)'>
+          and rch.charge_money = #{chargeMoney}
+        </if>
+        <if test= 'customerId != null and !"".equals(customerId)'>
+          and rch.customer_id = #{customerId}
+        </if>
+        <if test= 'ownerId != null and !"".equals(ownerId)'>
+          and rch.owner_id = #{ownerId}
+        </if>
+        <if test= 'chargeDate != null and !"".equals(chargeDate)'>
+          and rch.charge_date = #{chargeDate}
+        </if>
+        <if test= 'deleteFlg != null and !"".equals(deleteFlg)'>
+          and rch.delete_flg = #{deleteFlg}
+        </if>
+      </trim>
+    </where>
+  </select>
+  
+  
+  
+ 
+</mapper>
