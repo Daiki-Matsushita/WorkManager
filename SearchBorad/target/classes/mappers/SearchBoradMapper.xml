@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dreamhanks.searchborad.dao.SearchBoradMapper">
+  <resultMap id="BaseResultMap" type="com.dreamhanks.searchborad.dto.Borad">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="check_flg" jdbcType="VARCHAR" property="checkFlg" />
+    <result column="creat_at" jdbcType="CHAR" property="creatAt" />
+  </resultMap>
+
+  <select id="searchBorad" resultMap="BaseResultMap">
+    select * from borad
+    <where>
+        <if test='multiSearchArray != null and !"".equals(multiSearchArray)'>
+        and title IN
+          <foreach collection="multiSearchArray" item="item" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+
+        <if test='partialSearch != null and !"".equals(partialSearch)'>
+          and title LIKE CONCAT('%', #{partialSearch}, '%')
+        </if>
+        <if test='position != null and !"".equals(position)'>
+          and position = #{position}
+        </if>
+        <if test='startSearchDate != null and !"".equals(startSearchDate)'>
+          and #{startSearchDate} <![CDATA[ < ]]> creat_at
+        </if>
+        <if test='endSearchDate != null and !"".equals(endSearchDate)'>
+          and creat_at <![CDATA[ < ]]> #{endSearchDate}
+        </if>
+    </where>
+  </select>
+
+</mapper>
